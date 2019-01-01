@@ -38,6 +38,10 @@ modules:
       - install -Dm644 -t "${FLATPAK_DEST}/share/appdata/" com.isobuster.IsoBuster.appdata.xml
       - install -Dm644 -t "${FLATPAK_DEST}/share/applications/" com.isobuster.IsoBuster.desktop
       - install -Dm644 icon64x64.png "${FLATPAK_DEST}/share/icons/hicolor/64x64/apps/${FLATPAK_ID}.png"
+      - install -Dm644 icon48x48.png "${FLATPAK_DEST}/share/icons/hicolor/48x48/apps/${FLATPAK_ID}.png"
+      - install -Dm644 icon32x32.png "${FLATPAK_DEST}/share/icons/hicolor/32x32/apps/${FLATPAK_ID}.png"
+      - install -Dm644 icon24x24.png "${FLATPAK_DEST}/share/icons/hicolor/24x24/apps/${FLATPAK_ID}.png"
+      - install -Dm644 icon16x16.png "${FLATPAK_DEST}/share/icons/hicolor/16x16/apps/${FLATPAK_ID}.png"
     sources:
       - type: script
         only-arches:
@@ -86,4 +90,12 @@ modules:
       - type: file
         path: com.isobuster.IsoBuster.desktop
       - type: file
-        path: icon64x64.png
+        path: icons/icon64x64.png
+      - type: file
+        path: icons/icon48x48.png
+      - type: file
+        path: icons/icon32x32.png
+      - type: file
+        path: icons/icon24x24.png
+      - type: file
+        path: icons/icon16x16.png
