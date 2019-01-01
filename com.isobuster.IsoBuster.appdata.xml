@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+    <id>com.isobuster.IsoBuster</id>
+    <metadata_license>CC0-1.0</metadata_license>
+    <name>IsoBuster</name>
+    <summary>The recovery software that can do it all!</summary>
+    <description>
+        <p>Supporting ALL types of media, including CD/DVD, BD/HD DVD, Hard Drives, SSM, USB flash drives, Zip drives, Jaz drives, floppies etc.</p>
+        <p>Rescue lost files from a bad or trashed CD, DVD or a Blu Ray disc. Recover deleted files from a Hard Drive, Memory card or of from flash media that Windows says needs to be formatted ! Save important documents, precious pictures or video from the family, your only system backup,...</p>
+        <p>IsoBuster can do it all!</p>
+    </description>
+    <url type="homepage">https://www.isobuster.com/</url>
+    <url type="help">https://www.isobuster.com/help/</url>
+    <launchable>com.isobuster.IsoBuster.desktop</launchable>
+    <releases>
+      <release date="2018-12-18" version="4.3"></release>
+    </releases>
+    <project_license>LicenseRef-proprietary</project_license>
+    <developer_name>Smart Projects</developer_name>
+    <update_contact>sakcheen+flathub_AT_gmail.com</update_contact>
+    <content_rating type="oars-1.1"></content_rating>
+</component>

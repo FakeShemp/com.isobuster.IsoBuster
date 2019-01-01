@@ -1,0 +1,6 @@
+[Desktop Entry]
+Name=IsoBuster
+Type=Application
+Exec=isobuster %U
+Icon=com.isobuster.IsoBuster
+Categories=Utility;Archiving

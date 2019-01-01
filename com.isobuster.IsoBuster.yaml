@@ -1,0 +1,89 @@
+app-id: com.isobuster.IsoBuster
+runtime: org.winepak.Platform
+runtime-version: 3.0
+sdk: org.winepak.Sdk
+command: isobuster
+add-extensions:
+  org.winepak.Platform.Compat32:
+    directory: lib/32bit
+    version: 3.0
+    add-ld-path: lib
+    no-autodownload: false
+tags:
+  - proprietary
+finish-args:
+  - --socket=x11
+  - --share=ipc
+  - --allow=multiarch
+  - --filesystem=host
+  - --share=network
+modules:
+  - name: setup-compat32
+    buildsystem: simple
+    build-commands:
+      - mkdir -p /app/lib/32bit
+      - ln -s /app/lib/32bit/lib/ld-linux.so.2 /app/lib/ld-linux.so.2
+
+  - name: setup-wine-compat32
+    buildsystem: simple
+    build-commands:
+      - mkdir -p /app/lib/wine-32bit
+
+  - name: isobuster
+    buildsystem: simple
+    build-commands:
+      - install -d /app/bin
+      - install isobuster-installer /app/bin
+      - install isobuster /app/bin
+      - install -Dm644 -t "${FLATPAK_DEST}/share/appdata/" com.isobuster.IsoBuster.appdata.xml
+      - install -Dm644 -t "${FLATPAK_DEST}/share/applications/" com.isobuster.IsoBuster.desktop
+      - install -Dm644 icon64x64.png "${FLATPAK_DEST}/share/icons/hicolor/64x64/apps/${FLATPAK_ID}.png"
+    sources:
+      - type: script
+        only-arches:
+          - 'i386'
+        dest-filename: isobuster-installer
+        commands:
+          - if [ -z "$WINEPREFIX" ] ; then
+          - '    echo "No wine prefix set or is empty, abort."'
+          - '    exit 1'
+          - fi
+          -
+          - if [ -e "${WINEPREFIX}/dosdevices/c:/Program Files/Smart Projects/IsoBuster" ] ; then
+          - '    echo "This prefix already has an exisiting ''IsoBuster'' install at ${WINEPREFIX}"'
+          - '    echo "In order to install ''IsoBuster'' you must move or delete the current prefix."'
+          - '    exit 1'
+          - fi
+          -
+          - echo "Downloading installer..."
+          - curl -L --progress-bar --output "${XDG_CACHE_HOME}/isobuster-installer.exe" "https://www.isobuster.com/dl.php?d=isobuster.com&v=1&l=1"
+          -
+          - echo "Setting-up wine prefix..."
+          - wineboot
+          -
+          - echo "Installing application..."
+          - wine "${XDG_CACHE_HOME}/isobuster-installer.exe" "/VERYSILENT" "/NORESTART"
+          -
+          - echo "Installer finished"
+      - type: script
+        only-arches:
+          - 'i386'
+        dest-filename: isobuster
+        commands:
+          - export WINEARCH=win32
+          -
+          - if ! [ -e "${WINEPREFIX}/dosdevices/c:/Program Files/Smart Projects/IsoBuster" ] ; then
+          - '    source /app/bin/isobuster-installer'
+          - '    if [[ $? != 0 ]] ; then'
+          - '        echo "Installation failed, abort."'
+          - '        exit 1'
+          - '    fi'
+          - fi
+          -
+          - wine "C:/Program Files/Smart Projects/IsoBuster/IsoBuster.exe" "$@"
+      - type: file
+        path: com.isobuster.IsoBuster.appdata.xml
+      - type: file
+        path: com.isobuster.IsoBuster.desktop
+      - type: file
+        path: icon64x64.png
